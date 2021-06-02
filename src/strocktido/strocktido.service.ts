@@ -7,24 +7,33 @@ import { Strock, StrockDocument } from './schema/strock.schema';
 
 @Injectable()
 export class StrocktidoService {
-  
-  create(createStrocktidoDto: CreateStrocktidoDto) {
-    return 'This action adds a new strocktido';
+  constructor(@InjectModel(Strock.name) private strockModel: Model<StrockDocument>){ }
+  create(createStrocktidoDto: CreateStrocktidoDto):Promise<Strock> {
+    console.log(createStrocktidoDto);
+
+    const createdStrocktidoDto = new this.strockModel(createStrocktidoDto);
+    console.log(createdStrocktidoDto);
+    
+    return createdStrocktidoDto.save();
   }
 
-  findAll() {
-    return `This action returns all strocktido`;
+  async findAll():Promise<Strock[]> {
+    return await this.strockModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} strocktido`;
+  async findOne(id: string):Promise<Strock> {
+    return await this.strockModel.findById(id);
   }
 
-  update(id: number, updateStrocktidoDto: UpdateStrocktidoDto) {
-    return `This action updates a #${id} strocktido`;
+  async update(id: string, updateStrocktidoDto: UpdateStrocktidoDto) {
+    console.log(id);
+    
+    console.log(updateStrocktidoDto);
+
+    return await this.strockModel.findByIdAndUpdate(id, updateStrocktidoDto,{ new: true});
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} strocktido`;
+  async remove(id: number) {
+    return await this.strockModel.deleteOne({"_id": id});
   }
 }

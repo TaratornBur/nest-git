@@ -19,12 +19,12 @@ export class StrocktidoController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.strocktidoService.findOne(+id);
+    return this.strocktidoService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateStrocktidoDto: UpdateStrocktidoDto) {
-    return this.strocktidoService.update(+id, updateStrocktidoDto);
+    return this.strocktidoService.update(id, updateStrocktidoDto);
   }
 
   @Delete(':id')
